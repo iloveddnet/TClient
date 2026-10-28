@@ -544,6 +544,84 @@ void CPlayers::RenderHook(
 	else
 		HookPos = mix(vec2(Prev.m_HookX, Prev.m_HookY), vec2(Player.m_HookX, Player.m_HookY), Intra);
 
+	// Purple hook-hit particles
+if(ClientId >= 0 && ClientId < MAX_CLIENTS)
+{
+ static bool s_aWasHooked[MAX_CLIENTS] = {};
+ static int s_aHookHitTick[MAX_CLIENTS] = {};
+
+ const bool HookedPlayer = pPlayerChar->m_HookedPlayer >= 0;
+ const int CurrentTick = Client()->GameTick(g_Config.m_ClDummy);
+
+ // Hook just connected to a player
+ if(HookedPlayer && !s_aWasHooked[ClientId])
+  s_aHookHitTick[ClientId] = CurrentTick;
+
+ s_aWasHooked[ClientId] = HookedPlayer;
+
+ if(HookedPlayer)
+ {
+  const float Age =
+   (CurrentTick - s_aHookHitTick[ClientId] +
+   Client()->IntraGameTick(g_Config.m_ClDummy)) /
+   (float)Client()->GameTickSpeed();
+
+  // Effect duration: 0.45 seconds
+  if(Age >= 0.0f && Age < 0.45f)
+  {
+   const float Progress = Age / 0.45f;
+   const float AlphaParticles = (1.0f - Progress) * Alpha;
+
+   Graphics()->TextureClear();
+   Graphics()->QuadsBegin();
+
+   for(int i = 0; i < 14; i++)
+   {
+    const float ParticleAngle =
+     (2.0f * pi * i) / 14.0f + Age * 3.0f;
+
+    const float Radius =
+     8.0f + Progress * 34.0f + std::sin(Age * 18.0f + i) * 4.0f;
+
+    const vec2 ParticlePos =
+     HookPos + direction(ParticleAngle) * Radius;
+
+    const float Size =
+     2.0f + (1.0f - Progress) * 3.0f;
+
+    const ColorRGBA Purple(
+     0.72f,
+     0.18f,
+     1.0f,
+     AlphaParticles);
+
+    Graphics()->SetColor(Purple);
+    Graphics()->DrawCircle(
+     ParticlePos.x,
+     ParticlePos.y,
+     Size,
+     8);
+   }
+
+   // Central purple flash
+   Graphics()->SetColor(ColorRGBA(
+    0.9f,
+    0.45f,
+    1.0f,
+    (1.0f - Progress) * 0.65f * Alpha));
+
+   Graphics()->DrawCircle(
+    HookPos.x,
+    HookPos.y,
+    10.0f + Progress * 18.0f,
+    24);
+
+   Graphics()->QuadsEnd();
+
+   Graphics()->SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+  }
+ }
+}
 	if((Pos.x < ScreenRect.m_TopLeft.x && HookPos.x < ScreenRect.m_TopLeft.x) ||
 		(Pos.x > ScreenRect.m_BottomRight.x && HookPos.x > ScreenRect.m_BottomRight.x) ||
 		(Pos.y < ScreenRect.m_TopLeft.y && HookPos.y < ScreenRect.m_TopLeft.y) ||
