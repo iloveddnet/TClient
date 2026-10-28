@@ -867,7 +867,70 @@ void CPlayers::RenderPlayer(
 	if(Player.m_Weapon == WEAPON_HAMMER)
 		State.Add(&g_pData->m_aAnimations[ANIM_HAMMER_SWING], std::clamp(LastAttackTime * HammerAnimationTimeScale, 0.0f, 1.0f), 1.0f);
 	if(Player.m_Weapon == WEAPON_NINJA)
-		State.Add(&g_pData->m_aAnimations[ANIM_NINJA_SWING], std::clamp(LastAttackTime * 2.0f, 0.0f, 1.0f), 1.0f);
+		State.Add(&g_pData->m_aAnimations[ANIM_NINJA_SWING], std::clamp(LastAttackTime * 2.0f, 0.0f, 1.0f), 1.0f);	const float HammerAnimationTimeScale = 5.0f;
+	if(Player.m_Weapon == WEAPON_HAMMER)
+		State.Add(&g_pData->m_aAnimations[ANIM_HAMMER_SWING], std::clamp(LastAttackTime * HammerAnimationTimeScale, 0.0f, 1.0f), 1.0f);
+
+	// Hammer swing/hit effect: radial burst of particles at the point of impact.
+	// Triggered once per new attack tick (RenderPlayer runs every frame).
+	if(Player.m_Weapon == WEAPON_HAMMER && ClientId >= 0 && ClientId < MAX_CLIENTS && !Paused)
+	{
+		static int s_aLastHammerAttackTick[MAX_CLIENTS] = {0};
+		if(Player.m_AttackTick != s_aLastHammerAttackTick[ClientId])
+		{
+			s_aLastHammerAttackTick[ClientId] = Player.m_AttackTick;
+			// Only react to fresh attacks (not to old ticks seen for the first time)
+			if(AttackTicksPassed >= -1.0f && AttackTicksPassed < 3.0f)
+			{
+				// Same reach as the real hammer hit: ProximityRadius * 0.75 in front of the tee
+				const vec2 HitPos = Position + Direction * (28.0f * 0.75f + 14.0f);
+				const ColorRGBA WaveColor(1.0f, 0.85f, 0.4f, 1.0f);
+
+				// expanding shockwave ring
+				const int NumParticles = 14;
+				for(int i = 0; i < NumParticles; i++)
+				{
+					const float Ang = 2.0f * pi * i / (float)NumParticles;
+					const vec2 Dir = direction(Ang);
+
+					CParticle Ring;
+					Ring.SetDefault();
+					Ring.m_Spr = SPRITE_PART_BALL;
+					Ring.m_Pos = HitPos + Dir * 6.0f;
+					Ring.m_Vel = Dir * 220.0f;
+					Ring.m_LifeSpan = 0.25f;
+					Ring.m_StartSize = 14.0f;
+					Ring.m_EndSize = 2.0f;
+					Ring.m_Friction = 0.9f; // decelerates quickly -> forms a ring that stops
+					Ring.m_Gravity = 0.0f;
+					Ring.m_Rot = 0.0f;
+					Ring.m_Rotspeed = 0.0f;
+					Ring.m_Color = WaveColor;
+					Ring.m_UseAlphaFading = true;
+					Ring.m_StartAlpha = Alpha;
+					Ring.m_EndAlpha = 0.0f;
+					GameClient()->m_Particles.Add(CParticles::GROUP_GENERIC, &Ring);
+				}
+
+				// central flash
+				CParticle Flash;
+				Flash.SetDefault();
+				Flash.m_Spr = SPRITE_PART_AIRJUMP;
+				Flash.m_Pos = HitPos;
+				Flash.m_Vel = vec2(0.0f, 0.0f);
+				Flash.m_LifeSpan = 0.2f;
+				Flash.m_StartSize = 24.0f;
+				Flash.m_EndSize = 64.0f;
+				Flash.m_Friction = 1.0f;
+				Flash.m_Gravity = 0.0f;
+				Flash.m_Color = ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+				Flash.m_UseAlphaFading = true;
+				Flash.m_StartAlpha = 0.9f * Alpha;
+				Flash.m_EndAlpha = 0.0f;
+				GameClient()->m_Particles.Add(CParticles::GROUP_GENERIC, &Flash);
+			}
+		}
+}
 
 	// do skidding
 	if(!InAir && WantOtherDir && length(Vel * 50) > 500.0f)
