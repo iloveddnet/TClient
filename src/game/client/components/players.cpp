@@ -1511,3 +1511,4 @@ void CPlayers::OnInit()
 	CreateNinjaTeeRenderInfo();
 	CreateSpectatorTeeRenderInfo();
 }
+
