@@ -285,3 +285,30 @@ MACRO_CONFIG_INT(TcUiCompactList, tc_ui_compact_list, 0, 0, 1, CFGFLAG_CLIENT | 
 MACRO_CONFIG_INT(TcShowhudDummyPosition, tc_showhud_dummy_position, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Show ingame HUD (Dummy Position)")
 MACRO_CONFIG_INT(TcShowhudDummySpeed, tc_showhud_dummy_speed, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Show ingame HUD (Dummy Speed)")
 MACRO_CONFIG_INT(TcShowhudDummyAngle, tc_showhud_dummy_angle, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Show ingame HUD (Dummy Aim Angle)")
+
+// ============================== Astral Client - Visuals ==============================
+
+// Custom Hook
+MACRO_CONFIG_INT(AstralCustomHook, astral_custom_hook, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Enable custom hook visual effects")
+MACRO_CONFIG_INT(AstralCustomHookMode, astral_custom_hook_mode, 0, 0, 3, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Custom hook effect (0 = Lightning, 1 = Fire, 2 = Ice, 3 = Black Hole)")
+
+// Hammer Hit
+MACRO_CONFIG_INT(AstralHammerHit, astral_hammer_hit, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Show a shockwave effect when the hammer hits a player")
+MACRO_CONFIG_INT(AstralHammerHitWaveSize, astral_hammer_hit_wave_size, 100, 10, 400, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Hammer hit shockwave size (%)")
+MACRO_CONFIG_INT(AstralHammerHitWaveAlpha, astral_hammer_hit_wave_alpha, 80, 0, 100, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Hammer hit shockwave opacity (%)")
+MACRO_CONFIG_INT(AstralHammerHitWaveTime, astral_hammer_hit_wave_time, 60, 5, 300, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Hammer hit shockwave lifetime (0.1s steps)")
+MACRO_CONFIG_INT(AstralHammerHitParticles, astral_hammer_hit_particles, 1, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Also spawn particles on hammer hit")
+MACRO_CONFIG_INT(AstralHammerHitParticleCount, astral_hammer_hit_particle_count, 12, 0, 128, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Hammer hit particle count")
+MACRO_CONFIG_INT(AstralHammerHitParticleSize, astral_hammer_hit_particle_size, 100, 10, 400, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Hammer hit particle size (%)")
+MACRO_CONFIG_INT(AstralHammerHitParticleAlpha, astral_hammer_hit_particle_alpha, 80, 0, 100, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Hammer hit particle opacity (%)")
+
+// Freeze Lightning
+MACRO_CONFIG_INT(AstralFreezeLightning, astral_freeze_lightning, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Strike players with lightning from above when they get frozen")
+
+// World Particles
+MACRO_CONFIG_INT(AstralWorldParticles, astral_world_particles, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "Show floating neon particles across the screen")
+MACRO_CONFIG_INT(AstralWorldParticlesCount, astral_world_particles_count, 60, 0, 1000, CFGFLAG_CLIENT | CFGFLAG_SAVE, "World particle count")
+MACRO_CONFIG_INT(AstralWorldParticlesSize, astral_world_particles_size, 100, 10, 400, CFGFLAG_CLIENT | CFGFLAG_SAVE, "World particle size (%)")
+MACRO_CONFIG_INT(AstralWorldParticlesAlpha, astral_world_particles_alpha, 60, 0, 100, CFGFLAG_CLIENT | CFGFLAG_SAVE, "World particle opacity (%)")
+MACRO_CONFIG_INT(AstralWorldParticlesGravity, astral_world_particles_gravity, 0, 0, 1, CFGFLAG_CLIENT | CFGFLAG_SAVE, "World particle gravity (0 = Falling, 1 = Levitate)")
+MACRO_CONFIG_INT(AstralWorldParticlesFallSpeed, astral_world_particles_fall_speed, 100, 10, 400, CFGFLAG_CLIENT | CFGFLAG_SAVE, "World particle fall speed (%, Falling mode only)")
