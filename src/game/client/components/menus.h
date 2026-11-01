@@ -720,6 +720,7 @@ public:
 		SETTINGS_TCLIENT, // TClient
 		SETTINGS_PROFILES, // TClient
 		SETTINGS_CONFIGS, // TClient
+		SETTINGS_ASTRAL, // Astral Client
 		SETTINGS_CREDITS,
 		SETTINGS_LENGTH,
 	};
@@ -877,6 +878,10 @@ private:
 	void RenderSettingsTClientProfiles(CUIRect MainView);
 	void RenderSettingsTClientConfigs(CUIRect MainView);
 	void RenderTeeCute(const CAnimState *pAnim, const CTeeRenderInfo *pInfo, int Emote, vec2 Dir, vec2 Pos, bool CuteEyes, float Alpha = 1.0f);
+
+	// Astral Client: found in menus_astral.cpp
+	void RenderSettingsAstral(CUIRect MainView);
+	void RenderSettingsAstralVisuals(CUIRect MainView);
 
 	// TClient
 	const CWarType *m_pRemoveWarType = nullptr;
