@@ -2868,6 +2868,8 @@ if(CLIENT)
     components/spectator.h
     components/statboard.cpp
     components/statboard.h
+    components/tclient/astral_visuals.cpp
+    components/tclient/astral_visuals.h
     components/tclient/bg_draw.cpp
     components/tclient/bg_draw.h
     components/tclient/bg_draw_file.cpp
@@ -2880,6 +2882,7 @@ if(CLIENT)
     components/tclient/custom_communities.cpp
     components/tclient/custom_communities.h
     components/tclient/data_version.h
+    components/tclient/menus_astral.cpp
     components/tclient/menus_tclient.cpp
     components/tclient/mod.cpp
     components/tclient/mod.h
