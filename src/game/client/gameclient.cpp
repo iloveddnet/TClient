@@ -159,6 +159,7 @@ void CGameClient::OnConsoleInit()
 					      &m_NamePlates,
 					      &m_Particles.m_RenderExtra,
 					      &m_Particles.m_RenderGeneral,
+				      &m_AstralVisuals, // Astral Client
 					      &m_FreezeBars,
 					      &m_DamageInd,
 					      &m_PlayerIndicator, // TClient
@@ -1522,6 +1523,7 @@ void CGameClient::ProcessEvents()
 			if(!m_PredictedWorld.CheckPredictedEventHandled(CGameWorld::CPredictedEvent(Item.m_Type, HammerHitPos, -1, Client()->GameTick(g_Config.m_ClDummy))))
 			{
 				m_Effects.HammerHit(HammerHitPos, Alpha, Volume);
+				m_AstralVisuals.OnHammerHit(HammerHitPos); // Astral Client
 			}
 		}
 		else if(Item.m_Type == NETEVENTTYPE_BIRTHDAY)
@@ -4321,6 +4323,7 @@ void CGameClient::HandlePredictedEvents(const int Tick)
 			else if(EventsIterator->m_EventId == NETEVENTTYPE_HAMMERHIT)
 			{
 				m_Effects.HammerHit(EventsIterator->m_Pos, Alpha, Volume);
+				m_AstralVisuals.OnHammerHit(EventsIterator->m_Pos); // Astral Client
 			}
 			else if(EventsIterator->m_EventId == NETEVENTTYPE_DAMAGEIND)
 			{

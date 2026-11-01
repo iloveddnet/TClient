@@ -66,6 +66,7 @@
 #include "components/sounds.h"
 #include "components/spectator.h"
 #include "components/statboard.h"
+#include "components/tclient/astral_visuals.h"
 #include "components/tclient/bg_draw.h"
 #include "components/tclient/bindchat.h"
 #include "components/tclient/bindwheel.h"
@@ -230,6 +231,7 @@ public:
 	CBindWheel m_BindWheel;
 	CBgDraw m_BgDraw;
 	CTClient m_TClient;
+	CAstralVisuals m_AstralVisuals; // Astral Client
 	CTrails m_Trails;
 	CTranslate m_Translate;
 	CPet m_Pet;
